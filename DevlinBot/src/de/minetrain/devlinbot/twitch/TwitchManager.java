@@ -1,5 +1,8 @@
 package de.minetrain.devlinbot.twitch;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.github.philippheuer.credentialmanager.domain.OAuth2Credential;
 import com.github.philippheuer.events4j.simple.SimpleEventHandler;
 import com.github.twitch4j.TwitchClient;
@@ -11,6 +14,7 @@ import com.github.twitch4j.TwitchClientBuilder;
  * @version 1.0
  */
 public class TwitchManager {
+	private static final Logger logger = LoggerFactory.getLogger(TwitchManager.class);
 	public static TwitchClient twitch;
 	
 	public TwitchManager(String clientId, String clientSecret, String oAuth2Credential, String channelName) {
@@ -26,6 +30,6 @@ public class TwitchManager {
 		
 		twitch.getChat().joinChannel(channelName);
 		twitch.getEventManager().getEventHandler(SimpleEventHandler.class).registerListener(new TwitchListner());
-		System.out.println("Connecting to channels: "+twitch.getChat().getChannels().toString());
+		logger.info("Connecting to channels: "+twitch.getChat().getChannels().toString());
 	}
 }

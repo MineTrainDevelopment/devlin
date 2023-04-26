@@ -1,5 +1,8 @@
 package de.minetrain.devlinbot.twitch;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.github.philippheuer.events4j.simple.domain.EventSubscriber;
 import com.github.twitch4j.chat.events.channel.ChannelMessageEvent;
 import com.github.twitch4j.events.ChannelGoLiveEvent;
@@ -15,13 +18,14 @@ import de.minetrain.devlinbot.resources.Messages;
  * @version 1.0
  */
 public class TwitchListner {
+	private static final Logger logger = LoggerFactory.getLogger(TwitchListner.class);
 	Messages messages = new Messages();
 	public static Long lastCallTime = 0l;
 	public static Long lastStreamUpTime = 0l; 
 	
 	@EventSubscriber
 	public void onStreamUp(ChannelGoLiveEvent event){
-		System.out.println("Twtich livestram startet: "+event.getStream().getUserName()+" | "+event.getStream().getViewerCount()+" | "+event.getStream().getTitle());
+		logger.info("Twtich livestram startet: "+event.getStream().getUserName()+" | "+event.getStream().getViewerCount()+" | "+event.getStream().getTitle());
 		
 		if(!isLastStreamUpCooledDown(7200)){
 			TwitchManager.twitch.getChat().sendMessage(event.getChannel().getName(), messages.getRandomStreamUpSentences()
@@ -33,7 +37,7 @@ public class TwitchListner {
 	
 	@EventSubscriber
 	public void onStreamDown(ChannelGoOfflineEvent event){
-		System.out.println("Twtich livestram Offline: "+event.getChannel().getName());
+		logger.info("Twtich livestram Offline: "+event.getChannel().getName());
 		
 		TwitchManager.twitch.getChat().sendMessage(event.getChannel().getName(), messages.getRandomStreamDownSentences()
 			.replace("{STREAMER}", "@"+event.getChannel().getName())
@@ -43,7 +47,7 @@ public class TwitchListner {
 	
 	@EventSubscriber
 	public void onChannelMessage(ChannelMessageEvent event){
-		System.out.println("User: "+event.getUser().getName()+" | Message --> "+event.getMessage());
+		logger.info("User: "+event.getUser().getName()+" | Message --> "+event.getMessage());
 		
 		if(isLastCallCooledDown(Main.messageDelay) && event.getMessage().toLowerCase().contains(Main.triggerWord.toLowerCase())){
 			event.getTwitchChat().sendMessage(event.getChannel().getName(), messages.getRandomSillySentences()
