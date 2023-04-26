@@ -23,7 +23,7 @@ public class Messages {
 		sillySentences.add("Mich braucht jeder! Zumindest behaupten alle ich hätte gerade noch gefehlt‍");
 		sillySentences.add("{USER} So So... Ein Thermomix ist also eine Küchenmaschine? Hätte ja auch der heizungsinstallateur bei Asterix und obelix sein können! SeemsGood");
 		sillySentences.add("Manche Menschen sind wie schnitzel! Nicht zäh sondern beidseitig bekloppt!");
-		sillySentences.add("{USER} Du bist die Stradivari unter den arschgeigen!");
+//		sillySentences.add("{USER} Du bist die Stradivari unter den arschgeigen!"); 
 		sillySentences.add("Ich bin soooo satt. Ich mag keinen.... Oh Kuchen!");
 		sillySentences.add("Was Schaust mich so schräg an?");
 		sillySentences.add("{STREAMER} der böse {USER} war gemein zu mir ;C");

@@ -21,7 +21,7 @@ public class Main {
 			String oAuth2Credential = args[2];
 			String channelName = args[3];
 			
-			logger.info("----------------------------------");
+			logger.info("----------------------------------------------------------------");
 			logger.info("Devlin bot by MineTrain startet...");
 			logger.info("Should the bot not awnser you, you may neet to check the vaules:");
 			logger.info(" ");
@@ -29,7 +29,8 @@ public class Main {
 			logger.info("Client Secret -> **********"+clientSecret.substring(clientSecret.length()-4, clientSecret.length()-1));
 			logger.info("OAuth2 -> **********"+oAuth2Credential.substring(oAuth2Credential.length()-4, oAuth2Credential.length()-1));
 			logger.info("Channel Name -> "+channelName);
-			logger.info("----------------------------------");
+			logger.info("----------------------------------------------------------------");
+			logger.info(" ");
 			
 			new TwitchManager(clientId, clientSecret, oAuth2Credential, channelName);
 		} catch (Exception e) {
