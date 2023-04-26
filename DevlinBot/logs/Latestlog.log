@@ -1,7 +1,0 @@
-[26.04.2023 | 23:04:16] >> WARN  << [com.netflix.config.sources.URLConfigurationSource] - No URLs will be polled as dynamic configuration sources.
-[26.04.2023 | 23:04:16] >> INFO  << [com.netflix.config.sources.URLConfigurationSource] - To enable URLs as dynamic configuration sources, define System property archaius.configurationSource.additionalUrls or make config.properties available on classpath.
-[26.04.2023 | 23:04:16] >> INFO  << [io.github.xanthic.cache.core.CacheApiSettings] - Xanthic: Automatically set default cache provider to CaffeineProvider.
-[26.04.2023 | 23:04:18] >> INFO  << [com.github.twitch4j.chat.TwitchChat] - Connecting to Twitch IRC wss://irc-ws.chat.twitch.tv:443
-[26.04.2023 | 23:04:18] >> INFO  << [com.github.philippheuer.events4j.simple.SimpleEventHandler] - Registered method listener TwitchListner#onChannelMessage
-[26.04.2023 | 23:04:18] >> INFO  << [com.github.philippheuer.events4j.simple.SimpleEventHandler] - Registered method listener TwitchListner#onStreamUp
-[26.04.2023 | 23:04:18] >> INFO  << [com.github.philippheuer.events4j.simple.SimpleEventHandler] - Registered method listener TwitchListner#onStreamDown
