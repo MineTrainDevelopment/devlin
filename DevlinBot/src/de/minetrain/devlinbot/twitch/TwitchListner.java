@@ -20,18 +20,22 @@ import de.minetrain.devlinbot.resources.Messages;
 public class TwitchListner {
 	private static final Logger logger = LoggerFactory.getLogger(TwitchListner.class);
 	Messages messages = new Messages();
-	public static Long lastCallTime = 0l;
-	public static Long lastStreamUpTime = 0l; 
+	public static Long lastCallTime = System.currentTimeMillis() - Main.messageDelay*1000;
+	public static Long lastStreamUpTime = System.currentTimeMillis() - 7200000; 
 	
 	@EventSubscriber
 	public void onStreamUp(ChannelGoLiveEvent event){
 		logger.info("Twtich livestram startet: "+event.getStream().getUserName()+" | "+event.getStream().getViewerCount()+" | "+event.getStream().getTitle());
+		logger.debug("Cooldown: "+System.currentTimeMillis() +"-"+lastStreamUpTime);
 		
-		if(!isLastStreamUpCooledDown(7200)){
+		if((System.currentTimeMillis() - lastStreamUpTime) > 7200*1000){
+			lastStreamUpTime = System.currentTimeMillis();
 			TwitchManager.twitch.getChat().sendMessage(event.getChannel().getName(), messages.getRandomStreamUpSentences()
 				.replace("{STREAMER}", "@"+event.getChannel().getName())
 				.replace("{TIME}", "TIME-NULL"));
 		}
+		
+		
 	}
 	
 	
@@ -48,46 +52,21 @@ public class TwitchListner {
 	@EventSubscriber
 	public void onChannelMessage(ChannelMessageEvent event){
 		logger.info("User: "+event.getUser().getName()+" | Message --> "+event.getMessage());
+		logger.debug("Cooldown: "+System.currentTimeMillis() +"-"+lastCallTime);
 		
-		if(isLastCallCooledDown(Main.messageDelay) && event.getMessage().toLowerCase().contains(Main.triggerWord.toLowerCase())){
-			event.getTwitchChat().sendMessage(event.getChannel().getName(), messages.getRandomSillySentences()
+		if((System.currentTimeMillis() - lastCallTime) > Main.messageDelay*1000){
+			if(event.getMessage().toLowerCase().contains(Main.triggerWord.toLowerCase())){
+				lastCallTime = System.currentTimeMillis();
+				event.getTwitchChat().sendMessage(event.getChannel().getName(), messages.getRandomSillySentences()
 					.replace("{USER}", "@"+event.getUser().getName())
 					.replace("{STREAMER}", "@"+event.getChannel().getName())
 					.replace("{TIME}", "TIME-NULL"));
+			};
 		}
+		
+		
+		
 	}
 	
-
-	/**
-	 * Check whether a timestamp is further in the past than the specified time in seconds.
-	 * @param delaySeconds {@link Long}
-	 * @return whether the timestamp has cooled down.
-	 */
-	public boolean isLastCallCooledDown(long delaySeconds) {
-		long currentTime = System.currentTimeMillis();
-		
-	    if (lastCallTime == 0 || (currentTime - lastCallTime) > delaySeconds*1000) {
-	        lastCallTime = currentTime;
-	        return true;
-	    }
-	    
-	    return false;
-	}
-	
-	/**
-	 * Check whether a timestamp is further in the past than the specified time in seconds.
-	 * @param delaySeconds {@link Long}
-	 * @return whether the timestamp has cooled down.
-	 */
-	public boolean isLastStreamUpCooledDown(long delaySeconds) {
-		long currentTime = System.currentTimeMillis();
-		
-	    if (lastCallTime == 0 || (currentTime - lastCallTime) > delaySeconds*1000) {
-	        lastCallTime = currentTime;
-	        return true;
-	    }
-	    
-	    return false;
-	}
 
 }
