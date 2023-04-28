@@ -161,7 +161,7 @@ public class ConfigManager {
 	    
 
 	    throwWarn(path);
-	    return null;
+	    return new ArrayList<Long>();
 	}
 	
 
@@ -191,7 +191,7 @@ public class ConfigManager {
 	    
 
 	    throwWarn(path);
-	    return null;
+	    return new ArrayList<String>();
 	}
 	
 

@@ -17,6 +17,10 @@ Settings:
     - "uhrzeit"
     - "wie spät"
 
+CustomCommands: #{USER} {STREAMER} {TIME}
+  - "!test % {USER} This is a test command!"
+  - "!github % {USER} Follow @minetrainlp on GitHub -> https://github.com/MineTrainDevelopment!"
+
 SillySentences: #{USER} {STREAMER} {TIME}
   - "{USER} hat gepupst! NotLikeThis"
 

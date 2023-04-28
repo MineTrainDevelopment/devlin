@@ -49,7 +49,7 @@ public class Main {
 			
 			new TwitchManager(CREDENTIALS);
 		} catch (Exception e) {
-			logger.error((args.length >3) ? "You probably messed up your program arguments!" : "Somthing went wrong. Pls open an GitHub issues and tell me about it!",e);
+			logger.error((args.length >3) ? "You probably messed up your program arguments!" : "Somthing went wrong. You may open an GitHub issues and tell me about it!",e);
 			System.in.read();
 		}
 		
@@ -73,6 +73,7 @@ public class Main {
 						break;
 						
 					default:
+						TwitchManager.sendMessage(SETTINGS.getReplyChannelName(), null, "[CONSOLE] - "+line);
 						break;
 					}
 				}
