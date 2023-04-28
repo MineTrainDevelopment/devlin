@@ -56,7 +56,7 @@ public class Main {
 		startInputReader();
 	}
 	
-	//TODO add a config system.
+	//TODO add a !time kommand
 	//TODO add a local time to TwitchListner
 
 	

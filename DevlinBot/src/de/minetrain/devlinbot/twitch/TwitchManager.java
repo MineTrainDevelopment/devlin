@@ -1,5 +1,10 @@
 package de.minetrain.devlinbot.twitch;
 
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
+import java.util.Locale;
+import java.util.TimeZone;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -34,5 +39,17 @@ public class TwitchManager {
 		twitch.getChat().joinChannel(Main.SETTINGS.getReplyChannelName());
 		twitch.getEventManager().getEventHandler(SimpleEventHandler.class).registerListener(new TwitchListner());
 		logger.info("Connecting to channels: "+twitch.getChat().getChannels().toString());
+	}
+	
+	public static void sendMessage(String channel, String user, String message) {
+		logger.debug("Sending message -> message");
+		TimeZone.setDefault(TimeZone.getTimeZone("Europe/Berlin"));
+
+		twitch.getChat().sendMessage(channel, message
+			.replace("{USER}", (user != null) ? "" : "@"+user)
+			.replace("{STREAMER}", (channel != null) ? "" : "@"+channel)
+			.replace("{TIME}", LocalTime.now().format(DateTimeFormatter.ofPattern("HH:mm", Locale.GERMAN)))
+			.replace("{UP}", Main.SETTINGS.getStreamUpTranslation())
+			.replace("{DOWN}", Main.SETTINGS.getStreamDownTranslation()));
 	}
 }

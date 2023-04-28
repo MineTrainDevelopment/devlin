@@ -8,9 +8,14 @@ TwitchChannel:
 
 Settings:
   ReplyDelay: 60 #Seconds
-  TriggerWord: "Delvin"
+  TriggerWord: "Devlin"
   StreamUpTranslation: "Stream läuft wieder"
   StreamDownTranslation: "Stream Offline"
+  
+TimeCommandTriggers:
+  - "time"
+  - "uhrzeit"
+  - "wie spät"
 
 SillySentences: #{USER} {STREAMER} {TIME}
   - "{USER} hat gepupst! NotLikeThis"
@@ -20,3 +25,6 @@ StreamUpSentences: #{USER} {STREAMER} {TIME} {UP}
 
 StreamDownSentences: #{USER} {STREAMER} {TIME} {DOWN}
   - "{STREAMER} ist wieder da. Er hat uns wirklich vermisst! - {UP}"
+
+TimeSentences: #{USER} {STREAMER} {TIME}
+  - "Ist es schon {TIME}? Ich sollte mich beeilen und meine Sammlung von Socken sortieren."

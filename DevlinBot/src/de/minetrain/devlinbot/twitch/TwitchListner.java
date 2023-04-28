@@ -10,6 +10,7 @@ import com.github.twitch4j.events.ChannelGoOfflineEvent;
 
 import de.minetrain.devlinbot.main.Main;
 import de.minetrain.devlinbot.resources.Messages;
+import de.minetrain.devlinbot.userinput.ChatCommandManager;
 
 /**
  * 
@@ -19,9 +20,16 @@ import de.minetrain.devlinbot.resources.Messages;
  */
 public class TwitchListner {
 	private static final Logger logger = LoggerFactory.getLogger(TwitchListner.class);
-	Messages messages = new Messages(Main.CONFIG);
-	public static Long lastCallTime = System.currentTimeMillis() - Main.SETTINGS.getReplyDelay()*1000;
+	private static ChatCommandManager COMMAND_MANAGER;
+	private static Messages messages;
+	public static Long lastCallTime;
 //	public static Long lastStreamUpTime = System.currentTimeMillis() - 7200000;
+	
+	public TwitchListner() {
+		lastCallTime = System.currentTimeMillis() - Main.SETTINGS.getReplyDelay()*1000;
+		COMMAND_MANAGER = new ChatCommandManager();
+		messages = new Messages(Main.CONFIG);
+	}
 	
 	@EventSubscriber
 	public void onStreamUp(ChannelGoLiveEvent event){
@@ -30,16 +38,13 @@ public class TwitchListner {
 		
 //		if((System.currentTimeMillis() - lastStreamUpTime) > 7200*1000){
 //			lastStreamUpTime = System.currentTimeMillis();
-			TwitchManager.twitch.getChat().sendMessage(event.getChannel().getName(), messages.getRandomStreamUpSentences()
-				.replace("{STREAMER}", "@"+event.getChannel().getName())
-				.replace("{TIME}", "TIME-NULL")
-				.replace("{UP}", Main.SETTINGS.getStreamUpTranslation()));
+			TwitchManager.sendMessage(event.getChannel().getName(), null, messages.getRandomStreamUpSentences());
 //		}
 		
 		
 	}
-	
-	
+
+
 	@EventSubscriber
 	public void onStreamDown(ChannelGoOfflineEvent event){
 		logger.info("Twtich livestram Offline: "+event.getChannel().getName());
@@ -54,21 +59,21 @@ public class TwitchListner {
 	@EventSubscriber
 	public void onChannelMessage(ChannelMessageEvent event){
 		logger.info("User: "+event.getUser().getName()+" | Message --> "+event.getMessage());
-		logger.debug("Cooldown: "+System.currentTimeMillis() +"-"+lastCallTime);
 		
+		if(isCoolDown()){
+			COMMAND_MANAGER.execute(event, messages);
+		}
+	}
+
+
+	private boolean isCoolDown() {
+		logger.debug("Cooldown: "+System.currentTimeMillis() +"-"+lastCallTime);
 		if((System.currentTimeMillis() - lastCallTime) > Main.SETTINGS.getReplyDelay()*1000){
-			if(event.getMessage().toLowerCase().contains(Main.SETTINGS.getTriggerWord().toLowerCase())){
-				lastCallTime = System.currentTimeMillis();
-				event.getTwitchChat().sendMessage(event.getChannel().getName(), messages.getRandomSillySentences()
-					.replace("{USER}", "@"+event.getUser().getName())
-					.replace("{STREAMER}", "@"+event.getChannel().getName())
-					.replace("{TIME}", "TIME-NULL"));
-			};
+			lastCallTime = System.currentTimeMillis();
+			return true;
 		}
 		
-		
-		
+		return false;
 	}
 	
-
 }
