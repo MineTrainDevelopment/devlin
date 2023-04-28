@@ -19,21 +19,22 @@ import de.minetrain.devlinbot.resources.Messages;
  */
 public class TwitchListner {
 	private static final Logger logger = LoggerFactory.getLogger(TwitchListner.class);
-	Messages messages = new Messages();
-	public static Long lastCallTime = System.currentTimeMillis() - Main.messageDelay*1000;
-	public static Long lastStreamUpTime = System.currentTimeMillis() - 7200000; 
+	Messages messages = new Messages(Main.CONFIG);
+	public static Long lastCallTime = System.currentTimeMillis() - Main.SETTINGS.getReplyDelay()*1000;
+//	public static Long lastStreamUpTime = System.currentTimeMillis() - 7200000;
 	
 	@EventSubscriber
 	public void onStreamUp(ChannelGoLiveEvent event){
 		logger.info("Twtich livestram startet: "+event.getStream().getUserName()+" | "+event.getStream().getViewerCount()+" | "+event.getStream().getTitle());
-		logger.debug("Cooldown: "+System.currentTimeMillis() +"-"+lastStreamUpTime);
+//		logger.debug("Cooldown: "+System.currentTimeMillis() +"-"+lastStreamUpTime);
 		
-		if((System.currentTimeMillis() - lastStreamUpTime) > 7200*1000){
-			lastStreamUpTime = System.currentTimeMillis();
+//		if((System.currentTimeMillis() - lastStreamUpTime) > 7200*1000){
+//			lastStreamUpTime = System.currentTimeMillis();
 			TwitchManager.twitch.getChat().sendMessage(event.getChannel().getName(), messages.getRandomStreamUpSentences()
 				.replace("{STREAMER}", "@"+event.getChannel().getName())
-				.replace("{TIME}", "TIME-NULL"));
-		}
+				.replace("{TIME}", "TIME-NULL")
+				.replace("{UP}", Main.SETTINGS.getStreamUpTranslation()));
+//		}
 		
 		
 	}
@@ -45,7 +46,8 @@ public class TwitchListner {
 		
 		TwitchManager.twitch.getChat().sendMessage(event.getChannel().getName(), messages.getRandomStreamDownSentences()
 			.replace("{STREAMER}", "@"+event.getChannel().getName())
-			.replace("{TIME}", "TIME-NULL"));
+			.replace("{TIME}", "TIME-NULL")
+			.replace("{DOWN}", Main.SETTINGS.getStreamDownTranslation()));
 	}
 	
 	
@@ -54,8 +56,8 @@ public class TwitchListner {
 		logger.info("User: "+event.getUser().getName()+" | Message --> "+event.getMessage());
 		logger.debug("Cooldown: "+System.currentTimeMillis() +"-"+lastCallTime);
 		
-		if((System.currentTimeMillis() - lastCallTime) > Main.messageDelay*1000){
-			if(event.getMessage().toLowerCase().contains(Main.triggerWord.toLowerCase())){
+		if((System.currentTimeMillis() - lastCallTime) > Main.SETTINGS.getReplyDelay()*1000){
+			if(event.getMessage().toLowerCase().contains(Main.SETTINGS.getTriggerWord().toLowerCase())){
 				lastCallTime = System.currentTimeMillis();
 				event.getTwitchChat().sendMessage(event.getChannel().getName(), messages.getRandomSillySentences()
 					.replace("{USER}", "@"+event.getUser().getName())
