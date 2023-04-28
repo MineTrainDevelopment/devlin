@@ -43,7 +43,7 @@ public class Main {
 			logger.info("Client Secret -> **********"+clientSecret.substring(clientSecret.length()-4, clientSecret.length()-1));
 			logger.info("OAuth2 -> **********"+oAuth2Credential.substring(oAuth2Credential.length()-4, oAuth2Credential.length()-1));
 			logger.info("Channel Name -> "+SETTINGS.getReplyChannelName());
-			logger.info("Trigger word -> "+SETTINGS.getTriggerWord());
+			logger.info("Triggers word -> "+Main.CONFIG.getStringList("Settings.TriggerWords").toString());
 			logger.info("----------------------------------------------------------------");
 			logger.info(" ");
 			

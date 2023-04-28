@@ -11,7 +11,6 @@ import de.minetrain.devlinbot.config.ConfigManager;
  * @version 1.2
  */
 public class Settings {
-	private final String triggerWord;
 	private final Long replyDelay;
 	private final String replyChannelName;
 	private final String streamDownTranslation;
@@ -22,18 +21,10 @@ public class Settings {
 	 * @param config The current instance of the config.
 	 */
 	public Settings(ConfigManager config) {
-		this.triggerWord = config.getString("Settings.TriggerWord");
 		this.replyDelay = config.getLong("Settings.ReplyDelay");
 		this.replyChannelName = config.getString("TwitchChannel.ReplyChannel");
 		this.streamDownTranslation = config.getString("Settings.StreamDownTranslation");
 		this.streamUpTranslation = config.getString("Settings.StreamUpTranslation");
-	}
-
-	/**
-	 * @return The trigger word for the bot.
-	 */
-	public String getTriggerWord() {
-		return triggerWord;
 	}
 
 	/**

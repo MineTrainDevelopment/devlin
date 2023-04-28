@@ -15,9 +15,11 @@ public class ChatCommandManager {
 	
 	public ChatCommandManager() {
 		TimeCommand timeCommand = new TimeCommand();
-		Main.CONFIG.getStringList("TimeCommandTriggers").forEach(trigger -> commands.put(trigger, timeCommand));
+		DefaultTriggerWordCommand triggerWordCommand = new DefaultTriggerWordCommand();
+		
+		Main.CONFIG.getStringList("Settings.TimeCommandTriggers").forEach(trigger -> commands.put(trigger, timeCommand));
+		Main.CONFIG.getStringList("Settings.TriggerWords").forEach(trigger -> commands.put(trigger, triggerWordCommand));
 
-		commands.put(Main.SETTINGS.getTriggerWord(), new DefaultTriggerWordCommand());
 //		commands.put("TriggerWord", CommandClass);
 	}
 	
