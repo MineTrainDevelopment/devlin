@@ -56,7 +56,7 @@ public class Main {
 		startInputReader();
 	}
 	
-	//TODO add a !time kommand
+	//TODO Fix the invalid config error on debian.
 	//TODO add a local time to TwitchListner
 
 	
@@ -72,8 +72,12 @@ public class Main {
 						System.exit(0);
 						break;
 						
-					default:
+					case "say":
 						TwitchManager.sendMessage(SETTINGS.getReplyChannelName(), null, "[CONSOLE] - "+line);
+						break;
+						
+					default:
+						System.out.println("Commands -> exit, say");
 						break;
 					}
 				}
