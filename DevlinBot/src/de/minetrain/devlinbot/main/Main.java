@@ -1,8 +1,6 @@
 package de.minetrain.devlinbot.main;
 
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -53,36 +51,8 @@ public class Main {
 			System.in.read();
 		}
 		
-		startInputReader();
+		new ConsoleReader();
 	}
 	
-	//TODO Fix the invalid config error on debian.
-	//TODO add a local time to TwitchListner
-
 	
-	public static void startInputReader() {
-		new Thread(() -> {
-			try {
-				String line = "";
-				BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
-				while ((line = reader.readLine()) != null) {
-					switch (line.toLowerCase().split(" ")[0]) {
-					case "exit":
-						logger.warn("exit! - "+System.currentTimeMillis());
-						System.exit(0);
-						break;
-						
-					case "say":
-						TwitchManager.sendMessage(SETTINGS.getReplyChannelName(), null, "[CONSOLE] - "+line.replace("say ", ""));
-						break;
-						
-					default:
-						System.out.println("Commands -> exit, say");
-						break;
-					}
-				}
-			} catch (IOException e) {
-			}
-		}).start();
-	}
 }
