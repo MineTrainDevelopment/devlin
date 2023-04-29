@@ -66,14 +66,14 @@ public class Main {
 				String line = "";
 				BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
 				while ((line = reader.readLine()) != null) {
-					switch (line.toLowerCase()) {
+					switch (line.toLowerCase().split(" ")[0]) {
 					case "exit":
 						logger.warn("exit! - "+System.currentTimeMillis());
 						System.exit(0);
 						break;
 						
 					case "say":
-						TwitchManager.sendMessage(SETTINGS.getReplyChannelName(), null, "[CONSOLE] - "+line);
+						TwitchManager.sendMessage(SETTINGS.getReplyChannelName(), null, "[CONSOLE] - "+line.replace("say ", ""));
 						break;
 						
 					default:
