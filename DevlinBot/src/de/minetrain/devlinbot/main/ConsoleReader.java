@@ -42,12 +42,21 @@ public class ConsoleReader {
 							
 						//If the user entered "say", send a message to a specified channel on Twitch.
 						case "say": 
+							System.out.println("Sending a message...");
 							TwitchManager.sendMessage(Main.SETTINGS.getReplyChannelName(), null, "[CONSOLE] - "+line.replace("say ", ""));
+							break;
+						
+						case "reload":
+							System.out.println("Reload config...");
+							Main.CONFIG.reloadConfig();
 							break;
 						
 						// If the user entered an unknown command, display a list of available commands.
 						default:
-							System.out.println("Commands -> exit, say");
+							System.out.println("Commands:");
+							System.out.println("   - exit (Shutdown the bot)");
+							System.out.println("   - reload (Reload the config file)");
+							System.out.println("   - say (send a message in the Twich chat)");
 							break;
 					}
 				}

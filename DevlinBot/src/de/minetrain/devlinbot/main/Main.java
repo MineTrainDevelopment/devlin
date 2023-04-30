@@ -50,8 +50,6 @@ public class Main {
 	 */
 	public static void main(String[] args) throws IOException {
 		try {
-			SETTINGS = new Settings(CONFIG); //Initialize settings using configuration values
-			
 			if(args.length > 3){
 				//Initialize Twitch credentials using command line arguments
 				logger.info("Starting with launch arguments!");

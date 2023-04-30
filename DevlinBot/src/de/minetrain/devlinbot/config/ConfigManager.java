@@ -12,6 +12,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.yaml.snakeyaml.Yaml;
 
+import de.minetrain.devlinbot.config.obj.Settings;
+import de.minetrain.devlinbot.main.Main;
+
 /**
  * This class manages the configuration for the application.
  * @author MineTrain/Justin
@@ -45,7 +48,10 @@ public class ConfigManager {
      * @throws FileNotFoundException If the configuration file is not found.
      */
     public final void reloadConfig() throws FileNotFoundException{
+    	logger.info("Reload the ocnfig file!");
         config = yaml.load(new FileInputStream(configFileName));
+        Main.SETTINGS = new Settings(this); //Initialize settings using configuration values
+        logger.info("Config reloadet...");
     }
     
     /**
