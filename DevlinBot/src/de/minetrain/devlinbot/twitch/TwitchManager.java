@@ -1,5 +1,6 @@
 package de.minetrain.devlinbot.twitch;
 
+import java.time.Duration;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Locale;
@@ -16,6 +17,7 @@ import com.github.twitch4j.chat.events.channel.ChannelMessageEvent;
 
 import de.minetrain.devlinbot.config.obj.TwitchCredentials;
 import de.minetrain.devlinbot.main.Main;
+import io.github.bucket4j.Bandwidth;
 
 /**
  * The TwitchManager class is responsible for creating and managing a Twitch client instance. 
@@ -43,6 +45,7 @@ public class TwitchManager {
 			.withEnableHelix(true)
 			.withChatAccount(new OAuth2Credential("twitch", credentials.getUserOauth2Token()))
 	        .withEnableChat(true)
+	        .withChatChannelMessageLimit(Bandwidth.simple(1, Duration.ofSeconds(1)).withId("per-channel-limit")) //Set the message raid limit for normal users.
 			.build();
 		
 		
