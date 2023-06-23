@@ -1,6 +1,6 @@
 package de.minetrain.devlinbot.userinput.commands;
 
-import com.github.twitch4j.chat.events.channel.ChannelMessageEvent;
+import com.github.twitch4j.chat.events.AbstractChannelMessageEvent;
 
 import de.minetrain.devlinbot.resources.Messages;
 import de.minetrain.devlinbot.twitch.TwitchManager;
@@ -28,11 +28,11 @@ public class CustomCommand implements ChatCommand{
 	/**
 	 * Executes this custom command by sending the pre-defined message to the chat channel.
 	 *
-	 * @param event the {@link ChannelMessageEvent} object representing the chat message event that triggered this command
+	 * @param event the {@link AbstractChannelMessageEvent} object representing the chat message event that triggered this command
 	 * @param messages the {@link Messages} object representing the list of available messages.
 	 */
 	@Override
-	public void executeCommand(ChannelMessageEvent event, Messages messages) {
+	public void executeCommand(AbstractChannelMessageEvent event, Messages messages) {
 		TwitchManager.sendMessage(event, message);
 	}
 

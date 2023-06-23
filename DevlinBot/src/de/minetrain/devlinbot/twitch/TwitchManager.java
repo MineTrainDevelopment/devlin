@@ -13,6 +13,7 @@ import com.github.philippheuer.credentialmanager.domain.OAuth2Credential;
 import com.github.philippheuer.events4j.simple.SimpleEventHandler;
 import com.github.twitch4j.TwitchClient;
 import com.github.twitch4j.TwitchClientBuilder;
+import com.github.twitch4j.chat.events.AbstractChannelMessageEvent;
 import com.github.twitch4j.chat.events.channel.ChannelMessageEvent;
 
 import de.minetrain.devlinbot.config.obj.TwitchCredentials;
@@ -77,10 +78,10 @@ public class TwitchManager {
 	/**
 	 * Sends a message to the specified Twitch chat channel using the information from the provided {@link ChannelMessageEvent}.
 	 *
-	 * @param event The {@link ChannelMessageEvent} containing information about the chat channel and user.
+	 * @param event The {@link AbstractChannelMessageEvent} containing information about the chat channel and user.
 	 * @param message The message to be sent to the Twitch chat channel.
 	 */
-	public static void sendMessage(ChannelMessageEvent event, String message) {
+	public static void sendMessage(AbstractChannelMessageEvent event, String message) {
 		TwitchManager.sendMessage(event.getChannel().getName(), event.getUser().getName(), message);
 	}
 

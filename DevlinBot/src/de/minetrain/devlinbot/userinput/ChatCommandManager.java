@@ -3,7 +3,7 @@ package de.minetrain.devlinbot.userinput;
 import java.util.Map.Entry;
 import java.util.concurrent.ConcurrentHashMap;
 
-import com.github.twitch4j.chat.events.channel.ChannelMessageEvent;
+import com.github.twitch4j.chat.events.AbstractChannelMessageEvent;
 
 import de.minetrain.devlinbot.main.Main;
 import de.minetrain.devlinbot.resources.Messages;
@@ -49,11 +49,11 @@ public class ChatCommandManager {
 	/**
 	 * Executes the chat command triggered by a user in the chat.
 	 *
-	 * @param event the {@link ChannelMessageEvent} object representing the chat message event that triggered the command
+	 * @param event the {@link AbstractChannelMessageEvent} object representing the chat message event that triggered the command
 	 * @param messages the {@link Messages} object representing the list of available messages.
 	 * @return true if a command was executed, false otherwise
 	 */
-	public boolean execute(ChannelMessageEvent event, Messages messages) {
+	public boolean execute(AbstractChannelMessageEvent event, Messages messages) {
 		ChatCommand cmd = null;
 		
 		//Search for a matching trigger word and associated command

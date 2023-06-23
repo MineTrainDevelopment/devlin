@@ -1,5 +1,6 @@
 package de.minetrain.devlinbot.userinput;
 
+import com.github.twitch4j.chat.events.AbstractChannelMessageEvent;
 import com.github.twitch4j.chat.events.channel.ChannelMessageEvent;
 
 import de.minetrain.devlinbot.resources.Messages;
@@ -17,8 +18,8 @@ public interface ChatCommand {
 	/**
 	 * Executes the command when triggered by a user in the chat.
 	 *
-	 * @param event the {@link ChannelMessageEvent} object representing the chat message event that triggered this command
+	 * @param event the {@link AbstractChannelMessageEvent} object representing the chat message event that triggered this command
 	 * @param messages the {@link Messages} object representing the list of available messages.
 	 */
-	public void executeCommand(ChannelMessageEvent event, Messages messages);
+	public void executeCommand(AbstractChannelMessageEvent event, Messages messages);
 }

@@ -4,6 +4,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.github.philippheuer.events4j.simple.domain.EventSubscriber;
+import com.github.twitch4j.chat.events.AbstractChannelMessageEvent;
 import com.github.twitch4j.chat.events.channel.ChannelMessageEvent;
 import com.github.twitch4j.events.ChannelGoLiveEvent;
 import com.github.twitch4j.events.ChannelGoOfflineEvent;
@@ -69,7 +70,7 @@ public class TwitchListner {
 	 * @param event The {@link ChannelMessageEvent} object containing information about the message.
 	 */
 	@EventSubscriber
-	public void onChannelMessage(ChannelMessageEvent event){
+	public void onChannelMessage(AbstractChannelMessageEvent event){
 		logger.info("User: "+event.getUser().getName()+" | Message --> "+event.getMessage());
 		if(isCoolDown()){COMMAND_MANAGER.execute(event, messages);}
 	}
