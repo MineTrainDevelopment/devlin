@@ -23,7 +23,7 @@ import de.minetrain.devlinbot.userinput.ChatCommandManager;
  */
 public class TwitchListner {
 	private static final Logger logger = LoggerFactory.getLogger(TwitchListner.class);
-	private static ChatCommandManager COMMAND_MANAGER;
+	public static ChatCommandManager COMMAND_MANAGER;
 	private static Messages messages;
 	public static Long lastCallTime;
 //	public static Long lastStreamUpTime = System.currentTimeMillis() - 7200000;

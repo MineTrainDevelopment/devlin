@@ -7,6 +7,7 @@ import com.github.twitch4j.chat.events.AbstractChannelMessageEvent;
 
 import de.minetrain.devlinbot.main.Main;
 import de.minetrain.devlinbot.resources.Messages;
+import de.minetrain.devlinbot.twitch.TwitchManager;
 import de.minetrain.devlinbot.userinput.commands.CustomCommand;
 import de.minetrain.devlinbot.userinput.commands.DefaultTriggerWordCommand;
 import de.minetrain.devlinbot.userinput.commands.TimeCommand;
@@ -28,22 +29,34 @@ public class ChatCommandManager {
 	 * as well as custom commands defined by users.
 	 */
 	public ChatCommandManager() {
-		TimeCommand timeCommand = new TimeCommand();
-		DefaultTriggerWordCommand triggerWordCommand = new DefaultTriggerWordCommand();
+		//Load all config commands
+		loadCommands();
+
+//		Add additional commands by mapping trigger words to command classes:
+//		commands.put("TriggerWord", CommandClass);
+
+//		commands.put("!blame", new BlameCounter());
+//		commands.put("!game", new GameCounter());
+//		commands.put("!salz", new SalzCounter());
+	}
+
+	/**
+	 * Load all custom commands from config.
+	 */
+	public void loadCommands() {
+		commands.clear();
+		Main.CONFIG.getStringList("Settings.TimeCommandTriggers").forEach(trigger -> commands.put(trigger, new TimeCommand()));
+		Main.CONFIG.getStringList("Settings.TriggerWords").forEach(trigger -> commands.put(trigger, new DefaultTriggerWordCommand()));
 		
-		Main.CONFIG.getStringList("Settings.TimeCommandTriggers").forEach(trigger -> commands.put(trigger, timeCommand));
-		Main.CONFIG.getStringList("Settings.TriggerWords").forEach(trigger -> commands.put(trigger, triggerWordCommand));
-		
-		//Load custom commands defined by users
 		Main.CONFIG.getStringList("CustomCommands").forEach(command -> {
 			if(command.contains("%")){
 				String commandPrefix = command.split("%")[0].trim().strip();
 				commands.put(commandPrefix, new CustomCommand(command.replace(commandPrefix, "").replace("%", "").strip().trim()));
+				System.out.println(commandPrefix);
 			}
 		});
-
-//		Add additional commands by mapping trigger words to command classes:
-//		commands.put("TriggerWord", CommandClass);
+		
+		commands.entrySet().forEach(entry -> System.out.println(entry.getKey()));
 	}
 	
 	/**

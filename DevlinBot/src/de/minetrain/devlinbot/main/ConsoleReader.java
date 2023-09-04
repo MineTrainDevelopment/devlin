@@ -7,6 +7,7 @@ import java.io.InputStreamReader;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import de.minetrain.devlinbot.twitch.TwitchListner;
 import de.minetrain.devlinbot.twitch.TwitchManager;
 
 /**
@@ -49,6 +50,7 @@ public class ConsoleReader {
 						case "reload":
 							System.out.println("Reload config...");
 							Main.CONFIG.reloadConfig();
+							TwitchListner.COMMAND_MANAGER.loadCommands();
 							break;
 						
 						// If the user entered an unknown command, display a list of available commands.
