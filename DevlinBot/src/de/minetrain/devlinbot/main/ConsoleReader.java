@@ -50,6 +50,7 @@ public class ConsoleReader {
 						case "reload":
 							System.out.println("Reload config...");
 							Main.CONFIG.reloadConfig();
+							TwitchListner.reloadMessages();
 							TwitchListner.COMMAND_MANAGER.loadCommands();
 							break;
 						

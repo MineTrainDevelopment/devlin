@@ -10,6 +10,7 @@ Settings:
   ReplyDelay: 60 #Seconds
   StreamUpTranslation: "Stream läuft wieder"
   StreamDownTranslation: "Stream Offline"
+  RequestBasedResponseChance: 20 #20% How high the chance is that the bot will select a sentence because the keyword of the sentence was mentioned in the request. - percentage from 0-100
   TriggerWords:
     - "Devlin"
   TimeCommandTriggers:
@@ -21,8 +22,11 @@ CustomCommands: #{USER} {STREAMER} {TIME}
   - "!test % {USER} This is a test command!"
   - "!github % {USER} Follow @minetrainlp on GitHub -> https://github.com/MineTrainDevelopment!"
 
-SillySentences: #{USER} {STREAMER} {TIME}
+#You can mark a word as the sentence "KEY", for the Request Based Responds. You can do that by using -- %{WORD}% 
+#You can add a second key to a part from the key by using &{WORD}& inside a key. -- This is for doble words. Example: %{chocolate&{cookie}&}%
+SillySentences: #{USER}, {STREAMER}, {TIME}, %{KEY_WORD}%, %{KEY&{WORD}&}%
   - "{USER} hat gepupst! NotLikeThis"
+  - "/me stellt eine packung %{Kekse}% in den chat"
 
 StreamUpSentences: #{USER} {STREAMER} {TIME} {UP}
   - "{STREAMER} ist unsichtbar geworden! Er spielt Verstecken mit uns. - {DOWN}"

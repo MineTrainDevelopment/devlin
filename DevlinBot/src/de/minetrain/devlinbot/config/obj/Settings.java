@@ -15,6 +15,7 @@ public class Settings {
 	private final String replyChannelName;
 	private final String streamDownTranslation;
 	private final String streamUpTranslation;
+	private final Long requestBasedResponseChance;
 	
 	/**
 	 * Constructor for the Settings class.
@@ -25,6 +26,7 @@ public class Settings {
 		this.replyChannelName = config.getString("TwitchChannel.ReplyChannel");
 		this.streamDownTranslation = config.getString("Settings.StreamDownTranslation");
 		this.streamUpTranslation = config.getString("Settings.StreamUpTranslation");
+		this.requestBasedResponseChance = config.getLong("Settings.RequestBasedResponseChance");
 	}
 
 	/**
@@ -53,6 +55,13 @@ public class Settings {
 	 */
 	public String getStreamUpTranslation() {
 		return streamUpTranslation;
+	}
+
+	/**
+	 * @return The translation for when a stream goes up.
+	 */
+	public Long getRequestBasedResponseChance() {
+		return requestBasedResponseChance;
 	}
 	
 }

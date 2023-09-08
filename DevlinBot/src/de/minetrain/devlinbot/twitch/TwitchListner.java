@@ -34,6 +34,10 @@ public class TwitchListner {
 	public TwitchListner() {
 		lastCallTime = System.currentTimeMillis() - Main.SETTINGS.getReplyDelay()*1000;
 		COMMAND_MANAGER = new ChatCommandManager();
+		reloadMessages();
+	}
+	
+	public static void reloadMessages(){
 		messages = new Messages(Main.CONFIG);
 	}
 	

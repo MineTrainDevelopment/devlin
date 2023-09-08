@@ -24,7 +24,7 @@ public class DefaultTriggerWordCommand implements ChatCommand {
 	 */
 	@Override
 	public void executeCommand(AbstractChannelMessageEvent event, Messages messages) {
-		TwitchManager.sendMessage(event, messages.getRandomSillySentences());
+		TwitchManager.sendMessage(event, messages.getRandomSillySentences(event.getMessage()));
 	}
 	
 }
