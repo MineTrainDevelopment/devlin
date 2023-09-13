@@ -97,7 +97,7 @@ public class Messages {
 		}
 		
 		//Create a regular expression pattern for matching against the input.
-        Pattern pattern = Pattern.compile("^(" + String.join("|", input.replaceAll("[^a-zA-Z0-9\\s+]", "").split("\\s+")) + ")$");
+        Pattern pattern = Pattern.compile("^(" + String.join("|", input.toLowerCase().replaceAll("[^a-zA-Z0-9\\s+]", "").split("\\s+")) + ")$");
         
 		//Filter and collect matching responses based on the input.
 		List<String> result = requestBasedResponses.entrySet().stream()
