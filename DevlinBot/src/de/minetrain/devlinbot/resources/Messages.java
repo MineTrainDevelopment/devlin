@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Random;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
@@ -27,13 +26,11 @@ import de.minetrain.devlinbot.main.Main;
  */
 public class Messages {
 	private static final Logger logger = LoggerFactory.getLogger(Messages.class);
-	private final List<String> sillySentences;
-	private final List<String> streamDownSentences;
-	private final List<String> streamUpSentences;
-	private final List<String> timeSentences;
-	private final Random random = new Random();
-	
-	private final Map<String, List<String>> requestBasedResponses = new HashMap<String, List<String>>();
+	private final RandomArrayList<String> sillySentences;
+	private final RandomArrayList<String> streamDownSentences;
+	private final RandomArrayList<String> streamUpSentences;
+	private final RandomArrayList<String> timeSentences;
+	private final Map<String, RandomArrayList<String>> requestBasedResponses = new HashMap<String, RandomArrayList<String>>();
 	
 	/**
 	 * Constructs a Messages object by importing messages from the given ConfigManager.
@@ -45,10 +42,10 @@ public class Messages {
 	public Messages(ConfigManager config) {
 		logger.info("Inporting messages from config...");
 //		sillySentences = config.getStringList("SillySentences");
-		streamDownSentences = config.getStringList("StreamDownSentences");
-		streamUpSentences = config.getStringList("StreamUpSentences");
-		timeSentences = config.getStringList("TimeSentences");
-		List<String> newSentences = new ArrayList<>();
+		streamDownSentences =  new RandomArrayList<String>(config.getStringList("StreamDownSentences"));
+		streamUpSentences = new RandomArrayList<String>(config.getStringList("StreamUpSentences"));
+		timeSentences = new RandomArrayList<String>(config.getStringList("TimeSentences"));
+		RandomArrayList<String> newSentences = new RandomArrayList<String>();
 		
 		config.getStringList("SillySentences").forEach(sentence -> {
 			String keySplitter = "&{";
@@ -78,7 +75,7 @@ public class Messages {
 
 			for(String key : matchList) {
 				System.out.println(key+" - "+sentence+" - "+regexMatcher.groupCount());
-				requestBasedResponses.computeIfAbsent(key, k -> new ArrayList<>()).add(sentence);
+				requestBasedResponses.computeIfAbsent(key, k -> new RandomArrayList<>()).add(sentence);
 			}
 	        
 		});
@@ -93,25 +90,25 @@ public class Messages {
 	public String getRandomSillySentences(String input) {
 		//Check if the method should return a random response based on the request-based response chance.
 		if(!getRandomChance(Main.SETTINGS.getRequestBasedResponseChance())){
-			return sillySentences.get(random.nextInt(0, sillySentences.size()));
+			return sillySentences.get();
 		}
 		
 		//Create a regular expression pattern for matching against the input.
         Pattern pattern = Pattern.compile("^(" + String.join("|", input.toLowerCase().replaceAll("[^a-zA-Z0-9\\s+]", "").split("\\s+")) + ")$");
         
 		//Filter and collect matching responses based on the input.
-		List<String> result = requestBasedResponses.entrySet().stream()
+        List<String> result = requestBasedResponses.entrySet().stream()
 				   .filter(entry -> pattern.matcher(entry.getKey()).matches())
 				   .flatMap(entry -> entry.getValue().stream()) // Combine lists into a single stream of strings
 				   .collect(Collectors.toList());
 		
 		//If no matching responses are found, return a random silly sentence.
 		if(result == null || result.isEmpty()){
-			return sillySentences.get(random.nextInt(0, sillySentences.size()));
+			return sillySentences.get();
 		}
 		
 		//Return a randomly selected response from the list of matching responses.
-		return result.get(random.nextInt(0, result.size()));
+		return result.get(RandomArrayList.RANDOM.nextInt(0, result.size()));
 	}
 	
 
@@ -120,21 +117,21 @@ public class Messages {
 	 * @return a random stream down sentence from the list of stream down sentences.
 	 */
 	public String getRandomStreamDownSentences() {
-		return streamDownSentences.get(random.nextInt(0, streamDownSentences.size()));
+		return streamDownSentences.get();
 	}
 	
 	/**
 	 * @return a random stream up sentence from the list of stream up sentences.
 	 */
 	public String getRandomStreamUpSentences() {
-		return streamUpSentences.get(random.nextInt(0, streamUpSentences.size()));
+		return streamUpSentences.get();
 	}
 	
 	/**
 	 * @return a random time sentence from the list of time sentences.
 	 */
 	public String getRandomTimeSentences() {
-		return timeSentences.get(random.nextInt(0, timeSentences.size()));
+		return timeSentences.get();
 	}
 	
 	/**
@@ -148,6 +145,6 @@ public class Messages {
 	 * @return true if the random value is less than the chance, otherwise false.
 	 */
 	public boolean getRandomChance(long chance) {
-        return random.nextLong(100) < chance;
+        return RandomArrayList.RANDOM.nextLong(100) < chance;
     }
 }
