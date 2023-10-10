@@ -7,7 +7,6 @@ import com.github.twitch4j.chat.events.AbstractChannelMessageEvent;
 
 import de.minetrain.devlinbot.main.Main;
 import de.minetrain.devlinbot.resources.Messages;
-import de.minetrain.devlinbot.twitch.TwitchManager;
 import de.minetrain.devlinbot.userinput.commands.CustomCommand;
 import de.minetrain.devlinbot.userinput.commands.DefaultTriggerWordCommand;
 import de.minetrain.devlinbot.userinput.commands.TimeCommand;
@@ -45,8 +44,10 @@ public class ChatCommandManager {
 	 */
 	public void loadCommands() {
 		commands.clear();
-		Main.CONFIG.getStringList("Settings.TimeCommandTriggers").forEach(trigger -> commands.put(trigger, new TimeCommand()));
-		Main.CONFIG.getStringList("Settings.TriggerWords").forEach(trigger -> commands.put(trigger, new DefaultTriggerWordCommand()));
+		TimeCommand timeCommand = new TimeCommand();
+		DefaultTriggerWordCommand triggerWordCommand = new DefaultTriggerWordCommand();
+		Main.CONFIG.getStringList("Settings.TimeCommandTriggers").forEach(trigger -> {commands.put(trigger, timeCommand);});
+		Main.CONFIG.getStringList("Settings.TriggerWords").forEach(trigger -> {commands.put(trigger, triggerWordCommand);});
 		
 		Main.CONFIG.getStringList("CustomCommands").forEach(command -> {
 			if(command.contains("%")){
