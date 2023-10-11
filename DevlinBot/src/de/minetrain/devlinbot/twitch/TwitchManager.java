@@ -64,15 +64,21 @@ public class TwitchManager {
 	 */
 	public static void sendMessage(String channel, String user, String message) {
 		logger.debug("Sending message -> message"); //Log the sent message.
-		TimeZone.setDefault(TimeZone.getTimeZone("Europe/Berlin")); //Set the default time zone.
 		
 		//Send the message to the specified Twitch chat.
-		twitch.getChat().sendMessage(channel, message 
+		twitch.getChat().sendMessage(channel, formatMessage(channel, user, message));
+		
+	}
+
+	private static String formatMessage(String channel, String user, String message) {
+		TimeZone.setDefault(TimeZone.getTimeZone("Europe/Berlin")); //Set the default time zone.
+		message = message 
 			.replace("{USER}", (user == null) ? "" : "@"+user)
 			.replace("{STREAMER}", (channel == null) ? "" : "@"+channel)
 			.replace("{TIME}", LocalTime.now().format(DateTimeFormatter.ofPattern("HH:mm", Locale.GERMAN)))
 			.replace("{UP}", Main.SETTINGS.getStreamUpTranslation())
-			.replace("{DOWN}", Main.SETTINGS.getStreamDownTranslation()));
+			.replace("{DOWN}", Main.SETTINGS.getStreamDownTranslation());
+		return message;
 	}
 	
 	/**
@@ -82,7 +88,10 @@ public class TwitchManager {
 	 * @param message The message to be sent to the Twitch chat channel.
 	 */
 	public static void sendMessage(AbstractChannelMessageEvent event, String message) {
-		TwitchManager.sendMessage(event.getChannel().getName(), event.getUser().getName(), message);
+		twitch.getChat().sendMessage(event.getChannel().getName()
+				, formatMessage(event.getChannel().getName(), event.getUser().getName(), message)
+				, event.getMessageEvent().getNonce().get()
+				, event.getMessageEvent().getMessageId().get());
 	}
 
 }
