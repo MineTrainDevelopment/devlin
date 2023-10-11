@@ -1,6 +1,7 @@
 package de.minetrain.devlinbot.main;
 
 import java.io.BufferedReader;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStreamReader;
 
@@ -48,10 +49,7 @@ public class ConsoleReader {
 							break;
 						
 						case "reload":
-							System.out.println("Reload config...");
-							Main.CONFIG.reloadConfig();
-							TwitchListner.reloadMessages();
-							TwitchListner.COMMAND_MANAGER.loadCommands();
+							reload();
 							break;
 						
 						// If the user entered an unknown command, display a list of available commands.
@@ -68,5 +66,12 @@ public class ConsoleReader {
 				logger.warn("Console reader throw an exception!", ex);
 			}
 		}).start();
+	}
+
+	public static void reload() throws FileNotFoundException {
+		System.out.println("Reload config...");
+		Main.CONFIG.reloadConfig();
+		TwitchListner.reloadMessages();
+		TwitchListner.COMMAND_MANAGER.loadCommands();
 	}
 }

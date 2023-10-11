@@ -25,7 +25,7 @@ public class TwitchListner {
 	private static final Logger logger = LoggerFactory.getLogger(TwitchListner.class);
 	public static ChatCommandManager COMMAND_MANAGER;
 	private static Messages messages;
-	public static Long lastCallTime;
+	public static Long lastCallTime = 0l;
 //	public static Long lastStreamUpTime = System.currentTimeMillis() - 7200000;
 	
 	/**
@@ -76,7 +76,7 @@ public class TwitchListner {
 	@EventSubscriber
 	public void onChannelMessage(AbstractChannelMessageEvent event){
 		logger.info("User: "+event.getUser().getName()+" | Message --> "+event.getMessage());
-		if(isCoolDown()){COMMAND_MANAGER.execute(event, messages);}
+		if(!isCoolDown()){COMMAND_MANAGER.execute(event, messages);}
 	}
 
 	/**
@@ -87,10 +87,10 @@ public class TwitchListner {
 		logger.debug("Cooldown: "+System.currentTimeMillis() +"-"+lastCallTime);
 		if((System.currentTimeMillis() - lastCallTime) > Main.SETTINGS.getReplyDelay()*1000){
 			lastCallTime = System.currentTimeMillis();
-			return true;
+			return false;
 		}
 		
-		return false;
+		return true;
 	}
 	
 }

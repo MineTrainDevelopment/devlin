@@ -90,7 +90,7 @@ public class TwitchManager {
 	public static void sendMessage(AbstractChannelMessageEvent event, String message) {
 		twitch.getChat().sendMessage(event.getChannel().getName()
 				, formatMessage(event.getChannel().getName(), event.getUser().getName(), message)
-				, event.getMessageEvent().getNonce().get()
+				, event.getMessageEvent().getNonce().orElse("")
 				, event.getMessageEvent().getMessageId().get());
 	}
 

@@ -10,6 +10,7 @@ import de.minetrain.devlinbot.main.Main;
 import de.minetrain.devlinbot.resources.Messages;
 import de.minetrain.devlinbot.userinput.commands.CustomCommand;
 import de.minetrain.devlinbot.userinput.commands.DefaultTriggerWordCommand;
+import de.minetrain.devlinbot.userinput.commands.ReloadCommand;
 import de.minetrain.devlinbot.userinput.commands.TimeCommand;
 import de.minetrain.devlinbot.userinput.commands.WitzAPI;
 
@@ -60,6 +61,10 @@ public class ChatCommandManager {
 //				System.out.println(commandPrefix);
 			}
 		});
+		
+		ReloadCommand reloadCommand = new ReloadCommand();
+		commands.put("!rl", reloadCommand);
+		commands.put("!reload", reloadCommand);
 		
 //		Add additional commands by mapping trigger words to command classes:
 //		commands.put("TriggerWord", CommandClass);
