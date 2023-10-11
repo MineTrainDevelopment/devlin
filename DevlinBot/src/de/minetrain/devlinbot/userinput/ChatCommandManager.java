@@ -1,5 +1,6 @@
 package de.minetrain.devlinbot.userinput;
 
+import java.util.List;
 import java.util.Map.Entry;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -10,6 +11,7 @@ import de.minetrain.devlinbot.resources.Messages;
 import de.minetrain.devlinbot.userinput.commands.CustomCommand;
 import de.minetrain.devlinbot.userinput.commands.DefaultTriggerWordCommand;
 import de.minetrain.devlinbot.userinput.commands.TimeCommand;
+import de.minetrain.devlinbot.userinput.commands.WitzAPI;
 
 /**
  * The ChatCommandManager class manages the execution of chat commands.
@@ -22,6 +24,8 @@ import de.minetrain.devlinbot.userinput.commands.TimeCommand;
 public class ChatCommandManager {
 	//A ConcurrentHashMap that maps trigger words to chat commands.
 	private static final ConcurrentHashMap<String, ChatCommand> commands = new ConcurrentHashMap<String, ChatCommand>();
+	public static List<String> triggerWords;
+	public static WitzAPI JOKES = null;
 	
 	/**
 	 * Constructs a new ChatCommandManager and loads predefined commands from configuration settings,
@@ -30,13 +34,6 @@ public class ChatCommandManager {
 	public ChatCommandManager() {
 		//Load all config commands
 		loadCommands();
-
-//		Add additional commands by mapping trigger words to command classes:
-//		commands.put("TriggerWord", CommandClass);
-
-//		commands.put("!blame", new BlameCounter());
-//		commands.put("!game", new GameCounter());
-//		commands.put("!salz", new SalzCounter());
 	}
 
 	/**
@@ -44,8 +41,15 @@ public class ChatCommandManager {
 	 */
 	public void loadCommands() {
 		commands.clear();
+		triggerWords = Main.CONFIG.getStringList("Settings.TriggerWords");
+		
+		if(Main.SETTINGS.getJokeSystemSettings().isAktive()){
+			JOKES = new WitzAPI(Main.SETTINGS.getJokeSystemSettings());
+		}
+		
 		TimeCommand timeCommand = new TimeCommand();
 		DefaultTriggerWordCommand triggerWordCommand = new DefaultTriggerWordCommand();
+		
 		Main.CONFIG.getStringList("Settings.TimeCommandTriggers").forEach(trigger -> {commands.put(trigger, timeCommand);});
 		Main.CONFIG.getStringList("Settings.TriggerWords").forEach(trigger -> {commands.put(trigger, triggerWordCommand);});
 		
@@ -53,11 +57,14 @@ public class ChatCommandManager {
 			if(command.contains("%")){
 				String commandPrefix = command.split("%")[0].trim().strip();
 				commands.put(commandPrefix, new CustomCommand(command.replace(commandPrefix, "").replace("%", "").strip().trim()));
-				System.out.println(commandPrefix);
+//				System.out.println(commandPrefix);
 			}
 		});
 		
-		commands.entrySet().forEach(entry -> System.out.println(entry.getKey()));
+//		Add additional commands by mapping trigger words to command classes:
+//		commands.put("TriggerWord", CommandClass);
+		
+//		commands.entrySet().forEach(entry -> System.out.println(entry.getKey()));
 	}
 	
 	/**

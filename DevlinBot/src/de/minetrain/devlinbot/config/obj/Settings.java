@@ -16,17 +16,20 @@ public class Settings {
 	private final String streamDownTranslation;
 	private final String streamUpTranslation;
 	private final Long requestBasedResponseChance;
+	private final JokeSystemSettings jokeSystemSettings;
+	
 	
 	/**
 	 * Constructor for the Settings class.
 	 * @param config The current instance of the config.
 	 */
 	public Settings(ConfigManager config) {
-		this.replyDelay = config.getLong("Settings.ReplyDelay");
+		this.replyDelay = config.getLong("Settings.ReplyDelay", 60);
 		this.replyChannelName = config.getString("TwitchChannel.ReplyChannel");
-		this.streamDownTranslation = config.getString("Settings.StreamDownTranslation");
-		this.streamUpTranslation = config.getString("Settings.StreamUpTranslation");
-		this.requestBasedResponseChance = config.getLong("Settings.RequestBasedResponseChance");
+		this.streamDownTranslation = config.getString("Settings.StreamDownTranslation", "Stream has stopt!");
+		this.streamUpTranslation = config.getString("Settings.StreamUpTranslation", "Stream has startet!");
+		this.requestBasedResponseChance = config.getLong("Settings.RequestBasedResponseChance", 20);
+		this.jokeSystemSettings = new JokeSystemSettings(config);
 	}
 
 	/**
@@ -63,5 +66,11 @@ public class Settings {
 	public Long getRequestBasedResponseChance() {
 		return requestBasedResponseChance;
 	}
+	
+	
+	public JokeSystemSettings getJokeSystemSettings(){
+		return jokeSystemSettings;
+	}
+	
 	
 }

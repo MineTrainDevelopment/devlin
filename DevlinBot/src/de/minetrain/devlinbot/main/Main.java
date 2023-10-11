@@ -9,6 +9,7 @@ import de.minetrain.devlinbot.config.ConfigManager;
 import de.minetrain.devlinbot.config.obj.Settings;
 import de.minetrain.devlinbot.config.obj.TwitchCredentials;
 import de.minetrain.devlinbot.twitch.TwitchManager;
+import de.minetrain.devlinbot.userinput.commands.WitzAPI;
 
 /**
  * The Main class is responsible for initializing and starting the Twitch bot.

@@ -12,7 +12,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import de.minetrain.devlinbot.config.ConfigManager;
+import de.minetrain.devlinbot.config.obj.JokeSystemSettings;
 import de.minetrain.devlinbot.main.Main;
+import de.minetrain.devlinbot.userinput.ChatCommandManager;
 
 /**
  * The Messages class represents a collection of different message types used in the application.
@@ -88,6 +90,16 @@ public class Messages {
 	 * @return A randomly selected response based on the input criteria or a random silly sentence if no matches are found.
 	 */
 	public String getRandomSillySentences(String input) {
+		// Check if the joke system is active and if the input contains trigger words
+		JokeSystemSettings jokeSettings = Main.SETTINGS.getJokeSystemSettings();
+	    if (jokeSettings.isAktive() && containsWordFromList(input, jokeSettings.getTriggers()) && ChatCommandManager.JOKES != null) {
+	        // If bot trigger word is required, check for it in ChatCommandManager's triggerWords
+	        if (!jokeSettings.isRequireBotTriggerWord() || containsWordFromList(input, ChatCommandManager.triggerWords)) {
+	        	System.err.println("witz");
+	            return ChatCommandManager.JOKES.getNewJoke();
+	        }
+	    }
+		
 		//Check if the method should return a random response based on the request-based response chance.
 		if(!getRandomChance(Main.SETTINGS.getRequestBasedResponseChance())){
 			return sillySentences.get();
@@ -147,4 +159,15 @@ public class Messages {
 	public boolean getRandomChance(long chance) {
         return RandomArrayList.RANDOM.nextLong(100) < chance;
     }
+	
+	/**
+	 * Check if the given string contains any of the words from the list.
+	 *
+	 * @param inputString The string to check.
+	 * @param wordList	The list of words to search for.
+	 * @return true if the string contains any of the words, otherwise false.
+	 */
+	public boolean containsWordFromList(String inputString, List<String> wordList) {
+	    return wordList.stream().map(String::toLowerCase).anyMatch(inputString.toLowerCase()::contains);
+	}
 }

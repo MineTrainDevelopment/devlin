@@ -11,12 +11,25 @@ Settings:
   StreamUpTranslation: "Stream läuft wieder"
   StreamDownTranslation: "Stream Offline"
   RequestBasedResponseChance: 20 #20% How high the chance is that the bot will select a sentence because the keyword of the sentence was mentioned in the request. - percentage from 0-100
+
+  StandaloneCommands: #Determine whether or not the comments can be triggered without a trigger word.
+    CustomCommand: true
+    TimeCommand: true
+    JokeCommand: false
+  
   TriggerWords:
     - "Devlin"
   TimeCommandTriggers:
-    - "time"
+    - "!time"
     - "uhrzeit"
     - "wie spät"
+  JokeCommand:
+    isAktiv: true
+    JokeLanguage: DE
+    RequireBotTriggerWord: true #For example "devlin" from TriggerWords:
+    Triggers:
+      - "witz"
+      - "joke"
 
 CustomCommands: #{USER} {STREAMER} {TIME}
   - "!test % {USER} This is a test command!"

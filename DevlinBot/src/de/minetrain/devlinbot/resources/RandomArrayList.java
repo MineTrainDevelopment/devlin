@@ -41,6 +41,19 @@ public class RandomArrayList<Item> extends ArrayList<Item>{
 	}
 	
 	/**
+	 * Get a random item from this list and removes the picked item from it.
+	 * <br> NOTE: Should the randomizer pick the same item as the last time, it will pick a new one.
+	 * 
+	 * @return A random item in this list;
+	 */
+	public Item getAndRemove() {
+		Item output = super.get(RANDOM.nextInt(0, super.size()));
+		Item item = lastPickedItem.equals(output) ? get() : output;
+		super.remove(item);
+		return item;
+	}
+	
+	/**
 	 * Get a random item from this list.
 	 * <br> Shout the
 	 * <br> NOTE: If the "index" value should be smaller or greater than the size of this list,
