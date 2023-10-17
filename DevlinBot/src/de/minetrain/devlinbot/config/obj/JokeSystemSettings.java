@@ -6,7 +6,7 @@ import de.minetrain.devlinbot.config.ConfigManager;
 
 public class JokeSystemSettings {
 	private final List<String> triggers;
-	private final boolean aktive;
+	private boolean aktive;
 	private final String language;
 	private final boolean requireBotTriggerWord;
 	
@@ -31,6 +31,10 @@ public class JokeSystemSettings {
 
 	public boolean isRequireBotTriggerWord() {
 		return requireBotTriggerWord;
+	}
+	
+	public void setAktiv(boolean aktive){
+		this.aktive = aktive;
 	}
 	
 	

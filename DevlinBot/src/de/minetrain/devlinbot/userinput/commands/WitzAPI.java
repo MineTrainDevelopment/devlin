@@ -33,6 +33,7 @@ public class WitzAPI {
 		if(languageBody.isEmpty() || !languageBody.contains(",")){
 			logger.warn("Unsupported language code! -> '"+settings.getLanguage()+"' Try 'en' or 'de' instad!");
 			this.categorys = new ArrayList<String>();
+			settings.setAktiv(false);
 			return;
 		}
 		
@@ -53,6 +54,7 @@ public class WitzAPI {
 		
 		if(categorys.isEmpty()){
 			logger.warn("Your chosen language code has no joke categorys available! -> '"+settings.getLanguage()+"' Try 'en' or 'de' instad!");
+			settings.setAktiv(false);
 			return;
 		}
 		
